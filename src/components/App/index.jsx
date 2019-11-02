@@ -1,16 +1,24 @@
-import React from 'react';
-import { Container, Item } from 'semantic-ui-react';
+import React, { useEffect } from 'react';
+import { Container } from 'semantic-ui-react';
 
-import News from '../News/index';
 import MenuBar from '../MenuBar/index';
+import ContentRouter from '../../routers/ContentRouter/index';
 
-const App = () => (
-  <Container text>
-    <MenuBar />
-    <Item.Group divided relaxed>
-      <News title="Warning" author="auth" date={new Date().toDateString()} text="Lorem ipsum dolor sit amet.">Hello World!!!</News>
-    </Item.Group>
-  </Container>
-);
+const App = () => {
+  useEffect(() => {
+    window.gapi.load('auth2', () => {
+      window.gapi.auth2.init({
+        client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+      });
+    });
+  });
+
+  return (
+    <Container text>
+      <MenuBar />
+      <ContentRouter />
+    </Container>
+  );
+};
 
 export default App;
