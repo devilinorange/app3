@@ -27,28 +27,28 @@ const actionSignInFailed = (e) => ({
   },
 });
 
-export const signIn = () => {
-  const GoogleAuth = window.gapi.getAuthInstance();
-  GoogleAuth.signIn()
-    .then((user) => (
-      (dispatch) => {
-        const authToken = user.getAuthResponse().id_token;
-        dispatch(actionSignInRequest);
-        return fetch('http://127.0.0.1:5000/api/v1/auth/google', {
-          method: 'POST',
-          body: JSON.stringify({ authToken }),
-        })
-          .then((response) => response.json())
-          .then((json) => {
-            if (json.token) {
-              dispatch(actionSignInResponse(json.token));
-            } else {
-              dispatch(actionSignInFailed(json.error));
-            }
-          })
-          .catch((e) => {
-            dispatch(actionSignInFailed(e.message));
-          });
-      }
-    ));
-};
+export const signIn = (token) => (
+  (dispatch) => {
+    dispatch(actionSignInRequest);
+    return fetch('http://127.0.0.1:5000/api/v1/auth/google', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        token,
+      }),
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        if (json.token) {
+          dispatch(actionSignInResponse(json.token));
+        } else {
+          dispatch(actionSignInFailed(json.error));
+        }
+      })
+      .catch((e) => {
+        dispatch(actionSignInFailed(e.message));
+      });
+  }
+);

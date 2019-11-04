@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Container } from 'semantic-ui-react';
 
-import MenuBar from '../MenuBar/index';
+import MenuBarContainer from '../MenuBarContainer/index';
 import ContentRouter from '../../routers/ContentRouter/index';
 
 const App = () => {
@@ -15,7 +15,7 @@ const App = () => {
 
   return (
     <Container text>
-      <MenuBar />
+      <MenuBarContainer />
       <ContentRouter />
     </Container>
   );
