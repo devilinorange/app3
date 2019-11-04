@@ -5,7 +5,8 @@ import { NavLink } from 'react-router-dom';
 const MenuBar = () => {
   const signIn = () => {
     const GoogleAuth = window.gapi.auth2.getAuthInstance();
-    GoogleAuth.signIn();
+    GoogleAuth.signIn()
+      .then((user) => console.log(user.getAuthResponse().id_token));
   };
   return (
     <Menu size="huge">
