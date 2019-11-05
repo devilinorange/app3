@@ -43,6 +43,7 @@ export const signIn = (token) => (
       .then((json) => {
         if (json.token) {
           dispatch(actionSignInResponse(json.token));
+          console.log(json.token);
         } else {
           dispatch(actionSignInFailed(json.error));
         }
