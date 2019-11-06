@@ -1,7 +1,14 @@
-import { SIGN_IN_REQUEST, SIGN_IN_RESPONSE, SIGN_IN_FAILED } from './actions';
+import {
+  SIGN_IN_REQUEST,
+  SIGN_IN_RESPONSE,
+  SIGN_IN_FAILED,
+  USER_INFO_GOOGLE,
+} from './actions';
 
 const initialState = {
   token: '',
+  id: '',
+  userInfo: null,
   isLoading: false,
   eMessage: '',
 };
@@ -20,12 +27,18 @@ const sessionReducer = (state = initialState, action) => {
         isLoading: action.payload.isLoading,
         eMessage: action.payload.eMessage,
         token: action.payload.token,
+        id: action.payload.id,
       };
     case SIGN_IN_FAILED:
       return {
         ...state,
         isLoading: action.payload.isLoading,
         eMessage: action.payload.eMessage,
+      };
+    case USER_INFO_GOOGLE:
+      return {
+        ...state,
+        userInfo: action.payload,
       };
     default:
       return state;

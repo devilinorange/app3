@@ -5,17 +5,20 @@ import { NavLink } from 'react-router-dom';
 
 const MenuBar = (props) => {
   const {
-    token,
+    userInfo,
     isLoading,
     eMessage,
-    signIn,
+    signInWithGoogle,
+    fetchUserInfoGoogle,
   } = props;
 
   const signInHandler = () => {
     const GoogleAuth = window.gapi.auth2.getAuthInstance();
     GoogleAuth.signIn()
-      .then((user) => {
-        signIn(user.getAuthResponse().id_token);
+      .then((GoogleUser) => {
+        signInWithGoogle(GoogleUser.getAuthResponse().id_token);
+        const profile = GoogleUser.getBasicProfile();
+        fetchUserInfoGoogle(profile.getName(), profile.getImageUrl());
       })
       .catch(() => console.log('error'));
   };
@@ -24,15 +27,21 @@ const MenuBar = (props) => {
     <Menu size="huge">
       <Menu.Item as={NavLink} exact to="/" name="home" />
       <Menu.Item onClick={signInHandler} position="right" name="login" />
+      {userInfo && <p>{userInfo.name}</p>}
     </Menu>
   );
 };
 
 MenuBar.propTypes = {
-  token: PropTypes.string.isRequired,
+  userInfo: PropTypes.objectOf(PropTypes.any),
   isLoading: PropTypes.bool.isRequired,
   eMessage: PropTypes.string.isRequired,
-  signIn: PropTypes.func.isRequired,
+  signInWithGoogle: PropTypes.func.isRequired,
+  fetchUserInfoGoogle: PropTypes.func.isRequired,
+};
+
+MenuBar.defaultProps = {
+  userInfo: null,
 };
 
 export default MenuBar;
