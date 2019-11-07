@@ -1,43 +1,48 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Menu } from 'semantic-ui-react';
+import {
+  Menu,
+  Image,
+} from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 
+import SignInPortal from './components/SignInPortal/SignInPortalContainer/index';
+
 const MenuBar = (props) => {
+  const [openPortal, setOpenPortal] = useState(false);
+
   const {
     userInfo,
-    isLoading,
-    eMessage,
-    signInWithGoogle,
-    fetchUserInfoGoogle,
   } = props;
 
-  const signInHandler = () => {
-    const GoogleAuth = window.gapi.auth2.getAuthInstance();
-    GoogleAuth.signIn()
-      .then((GoogleUser) => {
-        signInWithGoogle(GoogleUser.getAuthResponse().id_token);
-        const profile = GoogleUser.getBasicProfile();
-        fetchUserInfoGoogle(profile.getName(), profile.getImageUrl());
-      })
-      .catch(() => console.log('error'));
-  };
+  const closePortalHandler = () => setOpenPortal(false);
+  const openPortalHandler = () => setOpenPortal(true);
 
   return (
-    <Menu size="huge">
+    <Menu size="small">
       <Menu.Item as={NavLink} exact to="/" name="home" />
-      <Menu.Item onClick={signInHandler} position="right" name="login" />
-      {userInfo && <p>{userInfo.name}</p>}
+      <Menu.Menu position="right" style={{ height: '50px' }}>
+        {!userInfo ? (
+          <>
+            <Menu.Item onClick={openPortalHandler} name="sign in" />
+            <SignInPortal closePortalHandler={closePortalHandler} openPortal={openPortal} />
+          </>
+        ) : (
+          <>
+            <Menu.Item>
+              {userInfo.avatarUrl && <Image src={userInfo.avatarUrl} avatar />}
+              {userInfo.name}
+            </Menu.Item>
+            <Menu.Item name="sign out" />
+          </>
+        )}
+      </Menu.Menu>
     </Menu>
   );
 };
 
 MenuBar.propTypes = {
   userInfo: PropTypes.objectOf(PropTypes.any),
-  isLoading: PropTypes.bool.isRequired,
-  eMessage: PropTypes.string.isRequired,
-  signInWithGoogle: PropTypes.func.isRequired,
-  fetchUserInfoGoogle: PropTypes.func.isRequired,
 };
 
 MenuBar.defaultProps = {

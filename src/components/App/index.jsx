@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Container } from 'semantic-ui-react';
 
-import MenuBarContainer from '../../Containers/MenuBarContainer/index';
+import MenuBarContainer from '../MenuBar/MenuBarContainer/index';
 import ContentRouter from '../../routers/ContentRouter/index';
 
 const App = () => {
