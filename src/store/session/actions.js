@@ -1,6 +1,7 @@
 export const SIGN_IN_REQUEST = 'SIGN_IN_REQUEST';
 export const SIGN_IN_RESPONSE = 'SIGN_IN_RESPONSE';
 export const SIGN_IN_FAILED = 'SIGN_IN_FAILED';
+export const SIGN_OUT = 'SIGN_OUT';
 export const USER_INFO_GOOGLE = 'USER_INFO_GOOGLE';
 
 const jwtDecode = require('jwt-decode');
@@ -23,13 +24,21 @@ const actionSignInResponse = (token, id) => ({
   },
 });
 
-const actionSignInFailed = (e) => ({
+export const actionSignInFailed = (e) => ({
   type: SIGN_IN_FAILED,
   payload: {
     isLoading: false,
     eMessage: e,
   },
 });
+
+export const actionSignOut = () => {
+  const GoogleAuth = window.gapi.auth2.getAuthInstance();
+  if (GoogleAuth.currentUser.get().isSignedIn()) {
+    GoogleAuth.signOut();
+  }
+  return { type: SIGN_OUT };
+};
 
 export const fetchUserInfoGoogle = (name, avatarUrl) => ({
   type: USER_INFO_GOOGLE,

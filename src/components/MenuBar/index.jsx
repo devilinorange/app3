@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   Menu,
   Image,
+  Button,
 } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 
@@ -13,7 +14,11 @@ const MenuBar = (props) => {
 
   const {
     userInfo,
+    isLoading,
+    actionSignOut,
   } = props;
+
+  useEffect(() => setOpenPortal(false), [userInfo]);
 
   const closePortalHandler = () => setOpenPortal(false);
   const openPortalHandler = () => setOpenPortal(true);
@@ -24,7 +29,7 @@ const MenuBar = (props) => {
       <Menu.Menu position="right" style={{ height: '50px' }}>
         {!userInfo ? (
           <>
-            <Menu.Item onClick={openPortalHandler} name="sign in" />
+            <Menu.Item as={Button} onClick={openPortalHandler} name="sign in" loading={isLoading} />
             <SignInPortal closePortalHandler={closePortalHandler} openPortal={openPortal} />
           </>
         ) : (
@@ -33,7 +38,7 @@ const MenuBar = (props) => {
               {userInfo.avatarUrl && <Image src={userInfo.avatarUrl} avatar />}
               {userInfo.name}
             </Menu.Item>
-            <Menu.Item name="sign out" />
+            <Menu.Item onClick={actionSignOut} name="sign out" />
           </>
         )}
       </Menu.Menu>
@@ -43,6 +48,8 @@ const MenuBar = (props) => {
 
 MenuBar.propTypes = {
   userInfo: PropTypes.objectOf(PropTypes.any),
+  actionSignOut: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
 };
 
 MenuBar.defaultProps = {

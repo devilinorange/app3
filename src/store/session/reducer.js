@@ -2,6 +2,7 @@ import {
   SIGN_IN_REQUEST,
   SIGN_IN_RESPONSE,
   SIGN_IN_FAILED,
+  SIGN_OUT,
   USER_INFO_GOOGLE,
 } from './actions';
 
@@ -39,6 +40,11 @@ const sessionReducer = (state = initialState, action) => {
       return {
         ...state,
         userInfo: action.payload,
+      };
+    case SIGN_OUT:
+      return {
+        ...state,
+        userInfo: null,
       };
     default:
       return state;

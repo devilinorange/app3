@@ -1,9 +1,15 @@
 import { connect } from 'react-redux';
+import { actionSignOut } from '../../../store/session/actions';
 
 import MenuBar from '../index';
 
 const mapStateToProps = (state) => ({
   userInfo: state.session.userInfo,
+  isLoading: state.session.isLoading,
 });
 
-export default connect(mapStateToProps)(MenuBar);
+const mapDispatchToProps = {
+  actionSignOut,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MenuBar);

@@ -13,6 +13,7 @@ const SignInPortal = (props) => {
     closePortalHandler,
     signInWithGoogle,
     fetchUserInfoGoogle,
+    actionSignInFailed,
   } = props;
 
   const gSignInHandler = () => {
@@ -23,7 +24,7 @@ const SignInPortal = (props) => {
         const profile = GoogleUser.getBasicProfile();
         fetchUserInfoGoogle(profile.getName(), profile.getImageUrl());
       })
-      .catch(() => console.log('error'));
+      .catch((e) => actionSignInFailed(e.message));
   };
 
   return (
@@ -59,6 +60,7 @@ SignInPortal.propTypes = {
   closePortalHandler: PropTypes.func.isRequired,
   signInWithGoogle: PropTypes.func.isRequired,
   fetchUserInfoGoogle: PropTypes.func.isRequired,
+  actionSignInFailed: PropTypes.func.isRequired,
 };
 
 export default SignInPortal;
