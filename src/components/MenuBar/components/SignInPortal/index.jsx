@@ -21,6 +21,7 @@ const SignInPortal = (props) => {
     GoogleAuth.signIn()
       .then((GoogleUser) => {
         signInWithGoogle(GoogleUser.getAuthResponse().id_token);
+        console.log(GoogleUser.getAuthResponse().id_token);
         const profile = GoogleUser.getBasicProfile();
         fetchUserInfoGoogle(profile.getName(), profile.getImageUrl());
       })
