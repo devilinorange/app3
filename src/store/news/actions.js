@@ -18,12 +18,13 @@ const fetchNews = () => (
   (dispatch) => {
     dispatch(actionFetchNewsRequest);
     return fetch('http://127.0.0.1:5000/api/v1/feeds')
-      .then((response) => response.json)
+      .then((response) => response.json())
       .then((json) => {
         if (!json.error) {
-          return dispatch(actionFetchNewsResponse(json.feeds));
+          dispatch(actionFetchNewsResponse(json.feeds));
+        } else {
+          dispatch(actionFetchNewsFailed(json.error));
         }
-        return dispatch(actionFetchNewsFailed(json.error));
       })
       .catch((e) => dispatch(actionFetchNewsFailed(e.message)));
   }

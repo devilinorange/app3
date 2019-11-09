@@ -1,11 +1,11 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import NewsPage from '../../pages/NewsPage/index';
+import NewsPageContainer from '../../pages/NewsPage/container/index';
 
 const ContentRouter = () => (
   <Switch>
-    <Route exact path="/" component={NewsPage} />
+    <Route exact path="/" component={NewsPageContainer} />
   </Switch>
 );
 

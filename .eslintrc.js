@@ -21,5 +21,6 @@ module.exports = {
     'react',
   ],
   rules: {
+    'no-underscore-dangle': 0,
   },
 };
