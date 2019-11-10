@@ -3,14 +3,7 @@ import * as type from './actionTypes';
 const initialState = {
   isLoading: false,
   eMessage: '',
-  news: [{
-    title: 'qweqwe',
-    content: 'qweqwe',
-    creator: {
-      displayName: 'qweqwe',
-    },
-    createDate: '123123',
-  }],
+  news: [],
 };
 
 const newsReducer = (state = initialState, action) => {

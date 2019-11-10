@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Item } from 'semantic-ui-react';
+import { Item, Message, Loader } from 'semantic-ui-react';
 
-import News from '../../components/News/index';
+import News from './components/News/index';
 
 const NewsPage = (props) => {
   const {
@@ -17,21 +17,24 @@ const NewsPage = (props) => {
   }, []);
   return (
     <>
-      {news ? (
-        <Item.Group divided>
-          {news.map((el) => (
-            <News
-              key={el._id}
-              title={el.title}
-              author={el.creator.displayName}
-              date={el.createDate}
-              text={el.content}
-            />
-          ))}
-        </Item.Group>
-      ) : (
-        <p>{eMessage}</p>
-      )}
+      {eMessage && <Message error>{eMessage}</Message>}
+      {
+        isLoading || !news ? (
+          <Loader active content="...Loading" />
+        ) : (
+          <Item.Group divided>
+            {news.map((el) => (
+              <News
+                key={el._id}
+                title={el.title}
+                author={el.creator.displayName}
+                date={el.createDate}
+                text={el.content}
+              />
+            ))}
+          </Item.Group>
+        )
+      }
     </>
   );
 };

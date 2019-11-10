@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Item } from 'semantic-ui-react';
 
+import dateFormat from '../../../../utils/dateFormat';
+
 const News = (props) => {
   const {
     title,
@@ -17,9 +19,11 @@ const News = (props) => {
         <Item.Meta>
           {author}
           /
-          {date}
+          {dateFormat(date)}
         </Item.Meta>
-        <Item.Description>{text}</Item.Description>
+        <Item.Description>
+          {text.length > 200 ? `${text.substring(0, 200)}...` : text}
+        </Item.Description>
       </Item.Content>
     </Item>
   );
