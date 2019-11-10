@@ -5,6 +5,7 @@ import NewsPage from '../index';
 
 const mapStateToProps = (state) => ({
   news: state.news.news,
+  userId: state.session.id,
   isLoading: state.news.isLoading,
   eMessage: state.news.eMessage,
 });

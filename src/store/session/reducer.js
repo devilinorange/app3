@@ -4,6 +4,7 @@ import {
   SIGN_IN_FAILED,
   SIGN_OUT,
   USER_INFO_GOOGLE,
+  SIGN_IN_FROM_LOCAL_STORAGE,
 } from './actions';
 
 const initialState = {
@@ -41,11 +42,15 @@ const sessionReducer = (state = initialState, action) => {
         ...state,
         userInfo: action.payload,
       };
-    case SIGN_OUT:
+    case SIGN_IN_FROM_LOCAL_STORAGE:
       return {
         ...state,
-        userInfo: null,
+        token: action.payload.token,
+        id: action.payload.id,
+        userInfo: action.payload.userInfo,
       };
+    case SIGN_OUT:
+      return initialState;
     default:
       return state;
   }

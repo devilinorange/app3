@@ -3,6 +3,7 @@ export const SIGN_IN_RESPONSE = 'SIGN_IN_RESPONSE';
 export const SIGN_IN_FAILED = 'SIGN_IN_FAILED';
 export const SIGN_OUT = 'SIGN_OUT';
 export const USER_INFO_GOOGLE = 'USER_INFO_GOOGLE';
+export const SIGN_IN_FROM_LOCAL_STORAGE = 'SIGN_IN_FROM_LOCAL_STORAGE';
 
 const jwtDecode = require('jwt-decode');
 
@@ -14,15 +15,19 @@ const actionSignInRequest = {
   },
 };
 
-const actionSignInResponse = (token, id) => ({
-  type: SIGN_IN_RESPONSE,
-  payload: {
-    token,
-    id,
-    isLoading: false,
-    eMessage: '',
-  },
-});
+const actionSignInResponse = (token, id) => {
+  localStorage.setItem('token', token);
+  localStorage.setItem('id', id);
+  return {
+    type: SIGN_IN_RESPONSE,
+    payload: {
+      token,
+      id,
+      isLoading: false,
+      eMessage: '',
+    },
+  };
+};
 
 export const actionSignInFailed = (e) => ({
   type: SIGN_IN_FAILED,
@@ -37,14 +42,27 @@ export const actionSignOut = () => {
   if (GoogleAuth.currentUser.get().isSignedIn()) {
     GoogleAuth.signOut();
   }
+  localStorage.clear();
   return { type: SIGN_OUT };
 };
 
-export const fetchUserInfoGoogle = (name, avatarUrl) => ({
-  type: USER_INFO_GOOGLE,
+export const fetchUserInfoGoogle = (name, avatarUrl) => {
+  localStorage.setItem('userInfo', JSON.stringify({ name, avatarUrl }));
+  return {
+    type: USER_INFO_GOOGLE,
+    payload: {
+      name,
+      avatarUrl,
+    },
+  };
+};
+
+export const actionSignInFromStorage = (token, id, userInfo) => ({
+  type: SIGN_IN_FROM_LOCAL_STORAGE,
   payload: {
-    name,
-    avatarUrl,
+    token,
+    id,
+    userInfo,
   },
 });
 

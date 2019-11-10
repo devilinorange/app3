@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import 'semantic-ui-css/semantic.min.css';
 
-import App from './components/App/index';
+import AppContainer from './components/App/container/index';
 import ErrorBoundary from './components/ErrorBoundary/index';
 import rootReducer from './store/reducer';
 
@@ -16,7 +16,7 @@ ReactDOM.render(
   <Provider store={store}>
     <ErrorBoundary>
       <BrowserRouter>
-        <App />
+        <AppContainer />
       </BrowserRouter>
     </ErrorBoundary>
   </Provider>, document.getElementById('root'),
