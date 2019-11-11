@@ -4,6 +4,8 @@ const initialState = {
   news: {},
   isLoading: false,
   eMessage: '',
+  addIsLoading: false,
+  addErrorMessage: '',
 };
 
 const singleNewsReducer = (state = initialState, action) => {
@@ -25,6 +27,24 @@ const singleNewsReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         eMessage: action.payload,
+      };
+    case type.ADD_SINGLE_NEWS_REQUEST:
+      return {
+        ...state,
+        addIsLoading: true,
+        addErrorMessage: '',
+      };
+    case type.ADD_SINGLE_NEWS_RESPONSE:
+      return {
+        ...state,
+        addIsLoading: false,
+        addErrorMessage: '',
+      };
+    case type.ADD_SINGLE_NEWS_FAILED:
+      return {
+        ...state,
+        addIsLoading: false,
+        addErrorMessage: action.payload,
       };
     default:
       return state;

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import fetchSingleNews from '../../../store/singleNews/actions';
+import { fetchSingleNews } from '../../../store/singleNews/actions';
 import ReadNewsPage from '../index';
 
 const mapStateToProps = (state) => ({

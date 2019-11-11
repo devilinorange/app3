@@ -14,7 +14,20 @@ const actionFetchSingleNewsFailed = (error) => ({
   payload: error,
 });
 
-const fetchSingleNews = (id) => (
+const actionAddSingleNewsRequest = {
+  type: type.ADD_SINGLE_NEWS_REQUEST,
+};
+
+const actionAddSingleNewsResponse = {
+  type: type.ADD_SINGLE_NEWS_RESPONSE,
+};
+
+const actionAddSingleNewsFailed = (error) => ({
+  type: type.ADD_SINGLE_NEWS_FAILED,
+  payload: error,
+});
+
+export const fetchSingleNews = (id) => (
   (dispatch) => {
     dispatch(actionFetchSingleNewsRequest);
     return fetch(`http://127.0.0.1:5000/api/v1/feeds/${id}`)
@@ -30,4 +43,26 @@ const fetchSingleNews = (id) => (
   }
 );
 
-export default fetchSingleNews;
+export const addSingleNews = (title, content, token, fetchNews) => (
+  (dispatch) => {
+    dispatch(actionAddSingleNewsRequest);
+    return fetch('http://127.0.0.1:5000/api/v1/feeds', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': token,
+      },
+      body: JSON.stringify({ title, content }),
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        if (json.feed) {
+          dispatch(actionAddSingleNewsResponse);
+          fetchNews();
+        } else {
+          dispatch(actionAddSingleNewsFailed(json.error));
+        }
+      })
+      .catch((e) => dispatch(actionAddSingleNewsFailed(e.message)));
+  }
+);

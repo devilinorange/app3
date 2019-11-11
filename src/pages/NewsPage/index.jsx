@@ -1,10 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Item, Message, Loader } from 'semantic-ui-react';
+import {
+  Item,
+  Message,
+  Loader,
+  Button,
+  Icon,
+} from 'semantic-ui-react';
 
 import News from './components/News/index';
+import FormAddNewsContainer from './components/FormAddNews/container/index';
 
 const NewsPage = (props) => {
+  const [showForm, setShowForm] = useState(false);
+
   const {
     userId,
     news,
@@ -19,7 +28,16 @@ const NewsPage = (props) => {
 
   return (
     <>
-      {eMessage && <Message error>{eMessage}</Message>}
+      {userId && (
+        <>
+          <Button icon labelPosition="left" onClick={() => setShowForm(!showForm)}>
+            <Icon name={showForm ? 'close' : 'add'} />
+            {showForm ? 'Close' : 'Add Feed'}
+          </Button>
+          {showForm && <FormAddNewsContainer />}
+        </>
+      )}
+      {eMessage && <Message negative>{eMessage}</Message>}
       {
         isLoading || !news ? (
           <Loader active content="...Loading" />
