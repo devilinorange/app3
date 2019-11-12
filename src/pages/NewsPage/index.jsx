@@ -8,7 +8,7 @@ import {
   Icon,
 } from 'semantic-ui-react';
 
-import News from './components/News/index';
+import NewsContainer from './components/News/container/index';
 import FormAddNewsContainer from './components/FormAddNews/container/index';
 
 const NewsPage = (props) => {
@@ -44,7 +44,7 @@ const NewsPage = (props) => {
         ) : (
           <Item.Group divided>
             {news.map((el) => (
-              <News
+              <NewsContainer
                 key={el._id}
                 newsId={el._id}
                 title={el.title}

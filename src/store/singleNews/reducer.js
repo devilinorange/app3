@@ -6,6 +6,8 @@ const initialState = {
   eMessage: '',
   addIsLoading: false,
   addErrorMessage: '',
+  deleteIsLoading: false,
+  deleteErrorMessage: '',
 };
 
 const singleNewsReducer = (state = initialState, action) => {
@@ -38,13 +40,29 @@ const singleNewsReducer = (state = initialState, action) => {
       return {
         ...state,
         addIsLoading: false,
-        addErrorMessage: '',
       };
     case type.ADD_SINGLE_NEWS_FAILED:
       return {
         ...state,
         addIsLoading: false,
         addErrorMessage: action.payload,
+      };
+    case type.DELETE_SINGLE_NEWS_REQUEST:
+      return {
+        ...state,
+        deleteIsLoading: true,
+        deleteErrorMessage: '',
+      };
+    case type.DELETE_SINGLE_NEWS_RESPONSE:
+      return {
+        ...state,
+        deleteIsLoading: false,
+      };
+    case type.DELETE_SINGLE_NEWS_FAILED:
+      return {
+        ...state,
+        deleteIsLoading: false,
+        deleteErrorMessage: action.payload,
       };
     default:
       return state;

@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Item, Button, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
 import dateFormat from '../../../../utils/dateFormat';
+import DeleteConfirm from '../../../../components/DeleteConfirm/index';
 
 const News = (props) => {
+  const [showConfirm, setShowConfirm] = useState(false);
+
   const {
     newsId,
     title,
@@ -13,7 +16,19 @@ const News = (props) => {
     date,
     text,
     editable,
+    token,
+    deleteSingleNews,
+    fetchNews,
   } = props;
+
+  const closeConfirm = () => {
+    setShowConfirm(false);
+  };
+
+  const acceptConfirm = () => {
+    deleteSingleNews(newsId, token, fetchNews);
+    closeConfirm();
+  };
 
   return (
     <Item>
@@ -33,13 +48,19 @@ const News = (props) => {
               <Icon name="edit" />
               Edit
             </Button>
-            <Button icon labelPosition="left" size="mini">
+            <Button icon labelPosition="left" size="mini" onClick={() => setShowConfirm(true)}>
               <Icon name="trash" />
               Delete
             </Button>
           </Item.Extra>
         )}
       </Item.Content>
+      <DeleteConfirm
+        open={showConfirm}
+        close={closeConfirm}
+        newsId={newsId}
+        onConfirm={acceptConfirm}
+      />
     </Item>
   );
 };
@@ -51,6 +72,9 @@ News.propTypes = {
   date: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
   editable: PropTypes.bool.isRequired,
+  token: PropTypes.string.isRequired,
+  deleteSingleNews: PropTypes.func.isRequired,
+  fetchNews: PropTypes.func.isRequired,
 };
 
 export default News;

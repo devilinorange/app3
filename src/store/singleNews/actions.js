@@ -27,6 +27,19 @@ const actionAddSingleNewsFailed = (error) => ({
   payload: error,
 });
 
+const actionDeleteSingleNewsRequest = {
+  type: type.DELETE_SINGLE_NEWS_REQUEST,
+};
+
+const actionDeleteSingleNewsResponse = {
+  type: type.DELETE_SINGLE_NEWS_RESPONSE,
+};
+
+const actionDeleteSingleNewsFailed = (error) => ({
+  type: type.DELETE_SINGLE_NEWS_FAILED,
+  payload: error,
+});
+
 export const fetchSingleNews = (id) => (
   (dispatch) => {
     dispatch(actionFetchSingleNewsRequest);
@@ -64,5 +77,28 @@ export const addSingleNews = (title, content, token, fetchNews) => (
         }
       })
       .catch((e) => dispatch(actionAddSingleNewsFailed(e.message)));
+  }
+);
+
+export const deleteSingleNews = (newsId, token, fetchNews) => (
+  (dispatch) => {
+    dispatch(actionDeleteSingleNewsRequest);
+    return fetch(`http://127.0.0.1:5000/api/v1/feeds/${newsId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': token,
+      },
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        if (!json.error) {
+          dispatch(actionDeleteSingleNewsResponse);
+          fetchNews();
+        } else {
+          dispatch(actionDeleteSingleNewsFailed(json.error));
+        }
+      })
+      .catch((e) => dispatch(actionDeleteSingleNewsFailed(e.message)));
   }
 );

@@ -54,6 +54,7 @@ FormAddNews.propTypes = {
   eMessage: PropTypes.string.isRequired,
   addSingleNews: PropTypes.func.isRequired,
   token: PropTypes.string.isRequired,
+  fetchNews: PropTypes.func.isRequired,
 };
 
 export default FormAddNews;
