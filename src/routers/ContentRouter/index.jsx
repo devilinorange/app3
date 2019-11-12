@@ -8,6 +8,7 @@ const ContentRouter = () => (
   <Switch>
     <Route exact path="/" component={NewsPageContainer} />
     <Route path="/news/:id" component={ReadNewsPageContainer} />
+    <Route path="/news/:id/edit" component={EditNewsPageContainer} />
   </Switch>
 );
 

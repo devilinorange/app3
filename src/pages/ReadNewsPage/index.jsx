@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   Item,
@@ -8,10 +8,15 @@ import {
   Button,
   Icon,
 } from 'semantic-ui-react';
+import { Redirect } from 'react-router-dom';
 
 import dateFormat from '../../utils/dateFormat';
+import DeleteConfirm from '../../components/DeleteConfirm/index';
 
 const ReadNewsPage = (props) => {
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [needRedirect, setNeedRedirect] = useState(false);
+
   const {
     userId,
     news,
@@ -19,6 +24,9 @@ const ReadNewsPage = (props) => {
     isLoading,
     eMessage,
     fetchSingleNews,
+    deleteSingleNews,
+    token,
+    fetchNews,
   } = props;
 
   const { id } = match.params;
@@ -26,6 +34,20 @@ const ReadNewsPage = (props) => {
   useEffect(() => {
     fetchSingleNews(id);
   }, [id, fetchSingleNews]);
+
+  const closeConfirm = () => {
+    setShowConfirm(false);
+  };
+
+  const accessConfrim = () => {
+    deleteSingleNews(news._id, token, fetchNews);
+    closeConfirm();
+    setNeedRedirect(true);
+  };
+
+  if (needRedirect) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <>
@@ -56,12 +78,13 @@ const ReadNewsPage = (props) => {
                   <Icon name="edit" />
                   Edit
                 </Button>
-                <Button icon labelPosition="left" style={{ width: '120px' }}>
+                <Button icon labelPosition="left" style={{ width: '120px' }} onClick={() => setShowConfirm(true)}>
                   <Icon name="trash" />
                   Delete
                 </Button>
               </>
             )}
+            <DeleteConfirm open={showConfirm} close={closeConfirm} onConfirm={accessConfrim} />
           </Segment>
         )
       }
@@ -76,6 +99,9 @@ ReadNewsPage.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   eMessage: PropTypes.string.isRequired,
   fetchSingleNews: PropTypes.func.isRequired,
+  deleteSingleNews: PropTypes.func.isRequired,
+  token: PropTypes.string.isRequired,
+  fetchNews: PropTypes.func.isRequired,
 };
 
 export default ReadNewsPage;

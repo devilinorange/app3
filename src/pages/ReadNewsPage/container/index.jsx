@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 
-import { fetchSingleNews } from '../../../store/singleNews/actions';
+import { fetchSingleNews, deleteSingleNews } from '../../../store/singleNews/actions';
+import fetchNews from '../../../store/news/actions';
 import ReadNewsPage from '../index';
 
 const mapStateToProps = (state) => ({
@@ -8,10 +9,13 @@ const mapStateToProps = (state) => ({
   isLoading: state.singleNews.isLoading,
   eMessage: state.singleNews.eMessage,
   userId: state.session.id,
+  token: state.session.token,
 });
 
 const mapDispatchToProps = {
   fetchSingleNews,
+  deleteSingleNews,
+  fetchNews,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ReadNewsPage);

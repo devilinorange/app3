@@ -58,7 +58,6 @@ const News = (props) => {
       <DeleteConfirm
         open={showConfirm}
         close={closeConfirm}
-        newsId={newsId}
         onConfirm={acceptConfirm}
       />
     </Item>

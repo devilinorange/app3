@@ -24,6 +24,8 @@ const FormAddNews = (props) => {
 
   const submitHandler = () => {
     addSingleNews(title, text, token, fetchNews);
+    setText('');
+    setTitle('');
   };
 
   return (
