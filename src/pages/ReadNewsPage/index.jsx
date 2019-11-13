@@ -8,7 +8,7 @@ import {
   Button,
   Icon,
 } from 'semantic-ui-react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 
 import dateFormat from '../../utils/dateFormat';
 import DeleteConfirm from '../../components/DeleteConfirm/index';
@@ -74,7 +74,7 @@ const ReadNewsPage = (props) => {
             </Item.Group>
             {userId === news.creator._id && (
               <>
-                <Button icon labelPosition="left" primary style={{ width: '120px' }}>
+                <Button as={Link} to={`/news/${news._id}/edit`} icon labelPosition="left" primary style={{ width: '120px' }}>
                   <Icon name="edit" />
                   Edit
                 </Button>

@@ -40,6 +40,19 @@ const actionDeleteSingleNewsFailed = (error) => ({
   payload: error,
 });
 
+const actionChangeSingleNewsRequest = {
+  type: type.CHANGE_SINGLE_NEWS_REQUEST,
+};
+
+const actionChangeSingleNewsResponse = {
+  type: type.CHANGE_SINGLE_NEWS_RESPONSE,
+};
+
+const actionChangeSingleNewsFailed = (error) => ({
+  type: type.CHANGE_SINGLE_NEWS_FAILED,
+  payload: error,
+});
+
 export const fetchSingleNews = (id) => (
   (dispatch) => {
     dispatch(actionFetchSingleNewsRequest);
@@ -100,5 +113,29 @@ export const deleteSingleNews = (newsId, token, fetchNews) => (
         }
       })
       .catch((e) => dispatch(actionDeleteSingleNewsFailed(e.message)));
+  }
+);
+
+export const changeSingleNews = (newsId, token, title, content, cb) => (
+  (dispatch) => {
+    dispatch(actionChangeSingleNewsRequest);
+    return fetch(`http://127.0.0.1:5000/api/v1/feeds/${newsId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': token,
+      },
+      body: JSON.stringify({ title, content }),
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        if (json.feed) {
+          dispatch(actionChangeSingleNewsResponse);
+          cb();
+        } else {
+          dispatch(actionChangeSingleNewsFailed(json.error));
+        }
+      })
+      .catch((e) => dispatch(actionChangeSingleNewsFailed(e.message)));
   }
 );

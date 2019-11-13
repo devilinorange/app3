@@ -46,11 +46,7 @@ const NewsPage = (props) => {
             {news.map((el) => (
               <NewsContainer
                 key={el._id}
-                newsId={el._id}
-                title={el.title}
-                author={el.creator.displayName}
-                date={el.createDate}
-                text={el.content}
+                news={el}
                 editable={el.creator._id === userId}
               />
             ))}

@@ -10,11 +10,7 @@ const News = (props) => {
   const [showConfirm, setShowConfirm] = useState(false);
 
   const {
-    newsId,
-    title,
-    author,
-    date,
-    text,
+    news,
     editable,
     token,
     deleteSingleNews,
@@ -26,25 +22,25 @@ const News = (props) => {
   };
 
   const acceptConfirm = () => {
-    deleteSingleNews(newsId, token, fetchNews);
+    deleteSingleNews(news._id, token, fetchNews);
     closeConfirm();
   };
 
   return (
     <Item>
       <Item.Content>
-        <Item.Header as={Link} to={`/news/${newsId}`}>{title}</Item.Header>
+        <Item.Header as={Link} to={`/news/${news._id}`}>{news.title}</Item.Header>
         <Item.Meta>
-          {author}
+          {news.creator.displayName}
           /
-          {dateFormat(date)}
+          {dateFormat(news.createDate)}
         </Item.Meta>
         <Item.Description>
-          {text.length > 200 ? `${text.substring(0, 200)}...` : text}
+          {news.content.length > 200 ? `${news.content.substring(0, 200)}...` : news.content}
         </Item.Description>
         {editable && (
           <Item.Extra>
-            <Button icon labelPosition="left" primary size="mini">
+            <Button as={Link} to={`/news/${news._id}/edit`} icon labelPosition="left" primary size="mini">
               <Icon name="edit" />
               Edit
             </Button>
@@ -65,11 +61,7 @@ const News = (props) => {
 };
 
 News.propTypes = {
-  newsId: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  author: PropTypes.string.isRequired,
-  date: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired,
+  news: PropTypes.objectOf(PropTypes.any).isRequired,
   editable: PropTypes.bool.isRequired,
   token: PropTypes.string.isRequired,
   deleteSingleNews: PropTypes.func.isRequired,

@@ -8,6 +8,8 @@ const initialState = {
   addErrorMessage: '',
   deleteIsLoading: false,
   deleteErrorMessage: '',
+  changeIsLoading: false,
+  changeErrorMessage: '',
 };
 
 const singleNewsReducer = (state = initialState, action) => {
@@ -63,6 +65,23 @@ const singleNewsReducer = (state = initialState, action) => {
         ...state,
         deleteIsLoading: false,
         deleteErrorMessage: action.payload,
+      };
+    case type.CHANGE_SINGLE_NEWS_REQUEST:
+      return {
+        ...state,
+        changeIsLoading: true,
+        changeErrorMessage: '',
+      };
+    case type.CHANGE_SINGLE_NEWS_RESPONSE:
+      return {
+        ...state,
+        changeIsLoading: false,
+      };
+    case type.CHANGE_SINGLE_NEWS_FAILED:
+      return {
+        ...state,
+        changeIsLoading: false,
+        changeErrorMessage: action.payload,
       };
     default:
       return state;
